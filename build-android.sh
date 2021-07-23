@@ -60,8 +60,8 @@ function encode_variable3(){
     while read -r -N 1 c; do printf "%%<%02X>" "$( printf "%d" \'$c )"; done <<< $1
 }
 
-ENCODED_ALIAS=encode_variable3 "$ALIAS"
-ENCODED_SIGNING_KEY_PASS=encode_variable3 "$SIGNING_KEY_PASS"
-ENCODED_KEY_STORE_PASSWORD=encode_variable3 "$KEY_STORE_PASSWORD"
+ENCODED_ALIAS=encode_variable1 "$ALIAS"
+ENCODED_SIGNING_KEY_PASS=encode_variable1 "$SIGNING_KEY_PASS"
+ENCODED_KEY_STORE_PASSWORD=encode_variable1 "$KEY_STORE_PASSWORD"
 
 msbuild "$CSPROJ_PATH" /t:restore /verbosity:normal /t:Rebuild /t:SignAndroidPackage /p:Configuration="$CONFIGURATION" /p:AndroidKeyStore=true /p:AndroidSigningKeyAlias="$ENCODED_ALIAS" /p:AndroidSigningKeyPass="$ENCODED_SIGNING_KEY_PASS" /p:AndroidSigningKeyStore="$RUNNER_TEMP"/android.keystore /p:AndroidSigningStorePass="$ENCODED_KEY_STORE_PASSWORD"
