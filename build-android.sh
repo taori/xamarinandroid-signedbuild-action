@@ -64,8 +64,8 @@ function encode_variable4(){
     echo -n "$1" | od -A n -t x1 | sed -E -e 's/[a-z0-9]+/%<&>/g' -e 's/ //g'
 }
 
-ENCODED_ALIAS=encode_variable4 "$ALIAS"
-ENCODED_SIGNING_KEY_PASS=encode_variable4 "$SIGNING_KEY_PASS"
-ENCODED_KEY_STORE_PASSWORD=encode_variable4 "$KEY_STORE_PASSWORD"
+ENCODED_ALIAS=$(encode_variable4 "$ALIAS")
+ENCODED_SIGNING_KEY_PASS=$(encode_variable4 "$SIGNING_KEY_PASS")
+ENCODED_KEY_STORE_PASSWORD=$(encode_variable4 "$KEY_STORE_PASSWORD")
 
 msbuild "$CSPROJ_PATH" /t:restore /verbosity:normal /t:Rebuild /t:SignAndroidPackage /p:Configuration="$CONFIGURATION" /p:AndroidKeyStore=true /p:AndroidSigningKeyAlias="$ENCODED_ALIAS" /p:AndroidSigningKeyPass="$ENCODED_SIGNING_KEY_PASS" /p:AndroidSigningKeyStore="$RUNNER_TEMP"/android.keystore /p:AndroidSigningStorePass="$ENCODED_KEY_STORE_PASSWORD"
